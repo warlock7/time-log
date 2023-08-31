@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
 
 import { GrAdd } from 'react-icons/gr';
 import { DatePicker } from './DatePicker';
@@ -19,6 +20,27 @@ import { useLogStore } from '@/store';
 
 export default function NewLog() {
   const { log, setLog } = useLogStore((state) => state);
+  const { toast } = useToast();
+
+  const validateLog = () => {
+    if (!log.date || !log.hour || log.hour === 0) {
+      throw 'Date or hour cannot be empty';
+    } else if (log.hour >= 24) {
+      throw 'Please enter valid hour';
+    }
+  };
+
+  const submitLog = () => {
+    try {
+      validateLog();
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail to create log',
+        description: error as string,
+      });
+    }
+  };
 
   return (
     <Dialog>
@@ -38,7 +60,7 @@ export default function NewLog() {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="date" className="text-right">
-              date
+              Date
             </Label>
             <DatePicker />
           </div>
@@ -71,12 +93,7 @@ export default function NewLog() {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            type="submit"
-            onClick={(e) => {
-              console.log(log);
-            }}
-          >
+          <Button type="submit" onClick={submitLog}>
             Save
           </Button>
         </DialogFooter>
