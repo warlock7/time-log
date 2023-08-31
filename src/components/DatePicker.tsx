@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon } from '@radix-ui/react-icons';
+import { SelectSingleEventHandler } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -12,9 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { useLogStore } from '@/store';
 
 export function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
+  const log = useLogStore((state) => state.log);
+  const setDate = useLogStore((state) => state.setDate);
 
   return (
     <Popover>
@@ -23,18 +26,18 @@ export function DatePicker() {
           variant={'outline'}
           className={cn(
             'justify-start text-left font-normal col-span-3',
-            !date && 'text-muted-foreground'
+            !log.date && 'text-muted-foreground'
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          {log.date ? format(log.date, 'PPP') : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
+          selected={log.date}
+          onSelect={setDate as SelectSingleEventHandler}
           initialFocus
         />
       </PopoverContent>
