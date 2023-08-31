@@ -18,8 +18,7 @@ import { DatePicker } from './DatePicker';
 import { useLogStore } from '@/store';
 
 export default function NewLog() {
-  const log = useLogStore((state) => state.log);
-  const setLog = useLogStore((state) => state.setLog);
+  const { log, setLog } = useLogStore((state) => state);
 
   return (
     <Dialog>
@@ -72,7 +71,14 @@ export default function NewLog() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save</Button>
+          <Button
+            type="submit"
+            onClick={(e) => {
+              console.log(log);
+            }}
+          >
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

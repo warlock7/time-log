@@ -16,8 +16,7 @@ import {
 import { useLogStore } from '@/store';
 
 export function DatePicker() {
-  const log = useLogStore((state) => state.log);
-  const setDate = useLogStore((state) => state.setDate);
+  const { log, setDate } = useLogStore((state) => state);
 
   return (
     <Popover>
