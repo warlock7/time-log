@@ -13,13 +13,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import dayjs from 'dayjs';
 
 import { GrAdd } from 'react-icons/gr';
 import { DatePicker } from './DatePicker';
 import { useLogStore } from '@/store';
 
 export default function NewLog() {
-  const { log, setLog } = useLogStore((state) => state);
+  const { log, setLog, setLogs } = useLogStore((state) => state);
   const { toast } = useToast();
 
   const validateLog = () => {
@@ -33,6 +34,11 @@ export default function NewLog() {
   const submitLog = () => {
     try {
       validateLog();
+      setLogs(log, dayjs(log.date).format('YYYY-MM-DD'));
+      toast({
+        title: 'Successfully create log',
+        description: `${log.hour} hours in ${log.date.toDateString()}`,
+      });
     } catch (error) {
       toast({
         variant: 'destructive',
