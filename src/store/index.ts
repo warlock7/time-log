@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ILog = {
+export type ILog = {
   note: string;
   hour: number;
   date: Date;

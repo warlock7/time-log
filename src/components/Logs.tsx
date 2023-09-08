@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Table,
   TableBody,
@@ -7,8 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+
+import { ILog, useLogStore } from '@/store';
 
 export default function Logs() {
+  const { logs } = useLogStore((state) => state);
+
   return (
     <div className="border border-dashed p-5">
       <Table>
@@ -21,13 +28,22 @@ export default function Logs() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">
-              {new Date().toDateString()}
-            </TableCell>
-            <TableCell>10</TableCell>
-            <TableCell>This is placeholder</TableCell>
-          </TableRow>
+          {Object.entries(logs)?.map(
+            ([key, log]: [key: string, log: ILog], index: number) => {
+              return (
+                <TableRow
+                  key={key}
+                  className={cn(log.hour < 5 ? 'bg-red-100' : '')}
+                >
+                  <TableCell className="font-medium">
+                    {log.date.toDateString()}
+                  </TableCell>
+                  <TableCell>{log.hour}</TableCell>
+                  <TableCell>{log.note}</TableCell>
+                </TableRow>
+              );
+            }
+          )}
         </TableBody>
       </Table>
     </div>
