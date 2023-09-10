@@ -30,13 +30,15 @@ export default function Logs() {
         <TableBody>
           {Object.entries(logs)?.map(
             ([key, log]: [key: string, log: ILog], index: number) => {
+              const date = log.date as Date;
+
               return (
                 <TableRow
                   key={key}
                   className={cn(log.hour < 5 ? 'bg-red-100' : '')}
                 >
                   <TableCell className="font-medium">
-                    {log.date.toDateString()}
+                    {date.toDateString()}
                   </TableCell>
                   <TableCell>{log.hour}</TableCell>
                   <TableCell>{log.note}</TableCell>

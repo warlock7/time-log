@@ -5,6 +5,8 @@ import NewLog from '@/components/NewLog';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import InitLog from './auth/components/state/InitLog';
+import { ILog } from '@/store';
 
 export default async function page() {
   const supabase = createServerComponentClient({ cookies });
@@ -15,8 +17,14 @@ export default async function page() {
     return redirect('/auth');
   }
 
+  const { data: logs } = await supabase
+    .from('time log')
+    .select('*')
+    .order('date', { ascending: true });
+
   return (
     <div className="p-5 space-y-10">
+      <InitLog logs={logs as ILog[]} />
       <Navbar />
       <NewLog />
       <Calendar />
