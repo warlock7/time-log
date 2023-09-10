@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 
 import AuthComponent from './components/AuthComponent';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const supabase = createServerComponentClient({ cookies });
 

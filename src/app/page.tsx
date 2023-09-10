@@ -8,6 +8,8 @@ import { cookies } from 'next/headers';
 import InitLog from './auth/components/state/InitLog';
 import { ILog } from '@/store';
 
+export const dynamic = 'force-dynamic';
+
 export default async function page() {
   const supabase = createServerComponentClient({ cookies });
 
